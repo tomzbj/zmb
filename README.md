@@ -22,7 +22,7 @@ if(ZMB_IntegrityCheck((unsigned char*)msg, size) == ZMB_CHECK_OK) {
 }
 ```
 
-然后调用ZMB_Parse即可, 需要提供向串口输出数据的回调函数. 
+然后调用ZMB_Parse即可, 需要提供向串口输出数据的回调函数, 这样在同时使用多个串口时也能分别向不同串口输出.
 
 ```
 void uwrite_usb(const void* msg, int size)
@@ -35,11 +35,11 @@ void uwrite_485(const void* msg, int size)
     USART_WriteData(USART_485, msg, size);
 }
 ...
-     if(USARTx == USART_485)
-                ZMB_Parse(msg, size, uwrite_485);
-            else
-                ZMB_Parse(msg, size, uwrite_usb);
-            break;
+    if(USARTx == USART_485)
+        ZMB_Parse(msg, size, uwrite_485);
+    else
+        ZMB_Parse(msg, size, uwrite_usb);
+    break;
 ```
 
 ZMB_IntegrityCheck和ZMB_Parse会自动根据msg首字节是否为':'来判断是ASCII帧还是二进制帧. 不过这种方式有个缺点, 当二进制帧的首字节正好是0x3A(其实就是':')时, 会被当作ASCII帧, 然后会判断为帧格式不正确. 好在0x3A=58, 一般也不至于在485总线上挂这么多从设备. 以后再改吧.
