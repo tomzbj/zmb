@@ -31,10 +31,10 @@
 // Specialized for Modbus gateways. Sent when slave fails to respond
 #define ZMB_EXCEPTION_OK 0
 
-void ZMB_Init(unsigned short* regs, int n_regs, unsigned char addr);
-void ZMB_Parse(const void* msg, int size, void (*write_f)(const void*, int));
-int ZMB_IntegrityCheck(const void* msg, int size);
-void ZMB_WriteReg(int regid, int val);
-unsigned short ZMB_ReadReg(int regid);
+void zmb_init(unsigned short* regs, int n_regs, unsigned char addr);
+void zmb_parse(const void* msg, int size, void (*write_f)(const void*, int));
+int zmb_integrity_check(const void* msg, int size);
+void zmb_write_reg(int regid, int val);
+unsigned short zmb_read_reg(int regid);
 
 #endif

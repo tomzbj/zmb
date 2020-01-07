@@ -135,7 +135,7 @@ static void RespondError(frame_t* pf, int errcode)
 }
 
 // @retval 若传入帧完整, 返回ZMB_CHECK_OK, 否则返回相应的错误代码.
-int ZMB_IntegrityCheck(const void* msg, int size)
+int zmb_integrity_check(const void* msg, int size)
 {
     unsigned char* p = (unsigned char*)msg;
     if(p[0] == ':') {
@@ -200,18 +200,18 @@ static void Parse(const unsigned char* msg, frame_t* pf)
 }
 
 // @brief Modbus 写寄存器
-void ZMB_WriteReg(int regid, int val)
+void zmb_write_reg(int regid, int val)
 {
     g.regs[regid] = val;
 }
 
-unsigned short ZMB_ReadReg(int regid)
+unsigned short zmb_read_reg(int regid)
 {
     return g.regs[regid];
 }
 
 // @brief Modbus 解析入口.
-void ZMB_Parse(const void* msg, int size, void (*write_f)(const void*, int))
+void zmb_parse(const void* msg, int size, void (*write_f)(const void*, int))
 {
     unsigned char buf[128];
     frame_t f;
@@ -238,7 +238,7 @@ void ZMB_Parse(const void* msg, int size, void (*write_f)(const void*, int))
     }
 }
 
-void ZMB_Init(unsigned short* regs, int n_regs, unsigned char addr)
+void zmb_init(unsigned short* regs, int n_regs, unsigned char addr)
 {
     g.regs = regs;
     g.n_regs = n_regs;
